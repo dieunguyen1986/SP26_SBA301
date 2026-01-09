@@ -1,0 +1,47 @@
+.course-card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Ảnh */
+.course-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Badge BEST SELLER */
+.course-badge {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  width: 90px;
+  height: 90px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.course-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* tối đa 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 3em;
+}
+
+.course-badge {
+  /* width: 50px;
+  height: 50px; */
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: 600;
+  
+}
