@@ -1,0 +1,15 @@
+.navbar-nav .active:after {
+  bottom: -4px;
+  position: absolute !important;
+  content: "";
+  width: 32px !important;
+  height: 4px !important;
+  border-radius: 9999px !important;
+  opacity: 1 !important;
+  left: 8px;
+  background-color: rgb(101, 86, 255) !important;
+}
+
+.navbar-nav .active {
+  position: relative !important;
+}
