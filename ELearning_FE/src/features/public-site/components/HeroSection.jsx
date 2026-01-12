@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "@/assets/mahila.png";
 
 const HeroSection = () => {
   return (
@@ -12,8 +13,8 @@ const HeroSection = () => {
               Get 30% off on first enroll
             </span>
 
-            <h1 className="fw-bold display-5 mt-3">
-              Advance your <br /> engineering skills <br /> with us.
+            <h1 className="fw-bold mt-3">
+              Advance your <br /> engineering skills with <br /> us.
             </h1>
 
             <p className="text-muted mt-3">
@@ -49,7 +50,8 @@ const HeroSection = () => {
               }}
             >
               <img
-                src="https://themewagon.github.io/E-learning/images/banner/mahila.png"
+                src={logo}
+                style={{ height: "300px"}}
                 alt="student"
                 className="img-fluid"
               />
