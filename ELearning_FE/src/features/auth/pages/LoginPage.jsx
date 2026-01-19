@@ -43,7 +43,7 @@ export const LoginPage = () => {
       // Set to context
       changeUser(response.user);
       
-      navigate("/home");
+      navigate("/");
 
     } catch (error) {
       console.log(error.message);

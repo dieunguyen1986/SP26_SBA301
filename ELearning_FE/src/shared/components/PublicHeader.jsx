@@ -1,10 +1,11 @@
 import { AuthStatesContext } from "@/app/provider/AuthProvider";
 import React, { useContext } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const PublicHeader = () => {
   const { userContext } = useContext(AuthStatesContext);
+  const navLinkCutom = ({isActive}) => "nav-link " + (isActive? "border-bottom border-black text-info": " text-gray")
 
   return (
     <div className="container py-2">
@@ -37,34 +38,32 @@ const PublicHeader = () => {
         <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
             <li className="nav-item">
-              <a className="nav-link fw-semibold text-primary" href="#">
-                Home
-              </a>
+              <NavLink to="/" end className={navLinkCutom}>Home</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink to="/courses" className={navLinkCutom}>
                 Courses
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink to="/mentor" className={navLinkCutom}>
                 Mentor
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink to="/group" className={navLinkCutom}>
                 Group
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink to="/testimonial" className={navLinkCutom}>
                 Testimonial
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink to="/docs" className={navLinkCutom}>
                 Docs
-              </a>
+              </NavLink>
             </li>
           </ul>
 
