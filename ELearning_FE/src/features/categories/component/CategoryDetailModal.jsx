@@ -9,30 +9,38 @@ export const CategoryDetailModal = ({
   categoryEditable
 }) => {
   const [category, setCategory] = useState({
-    id:"",
-    categoryName:"",
-    description:"",
-    sortOrder:0,
+    id: "",
+    categoryName: "",
+    description: "",
+    sortOrder: 0,
     parentId: "",
-    active:true
+    active: true
   });
-  
 
-  useEffect(()=>{
-    console.log(categoryEditable)
+  useEffect(() => {
     setCategory({
-       ...categoryEditable,
-
+      id: "",
+      categoryName: "",
+      description: "",
+      sortOrder: 0,
+      parentId: "",
+      active: true
     })
-  },[categoryEditable])
+  }, [show])
 
-  
+  useEffect(() => {
+    setCategory({
+      ...categoryEditable,
+    })
+  }, [categoryEditable])
+
+
 
   const handleChange = (e) => {
-    const {name, value, type, checked} = e.target;
+    const { name, value, type, checked } = e.target;
     setCategory({
-        ...category,
-        [name]: type === "checkbox" ? checked : value
+      ...category,
+      [name]: type === "checkbox" ? checked : value
     }
     )
   }
@@ -44,7 +52,7 @@ export const CategoryDetailModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3"  controlId="id">
+          <Form.Group className="mb-3" controlId="id">
             <Form.Control type="hidden" value={category.id} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="categoryName">
@@ -52,7 +60,7 @@ export const CategoryDetailModal = ({
             <Form.Control name="categoryName" type="text" value={category.categoryName} onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="description">
-            <Form.Label>Desciption</Form.Label>
+            <Form.Label>Description</Form.Label>
             <Form.Control as="textarea" rows={3} name="description" value={category.description} onChange={handleChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="sortOrder">
@@ -63,18 +71,21 @@ export const CategoryDetailModal = ({
             <Form.Label>Parent Category</Form.Label>
             <Form.Select aria-label="Default select example" name="parentId" value={category.parentId} onChange={handleChange}>
               <option value="">Open this select menu</option>
-              {categories.map((cat) => (
-                <option key={cat?.id} value={cat?.id}>
-                  {cat?.categoryName}
-                </option>
-              ))}
+              {categories.map((cat) => {
+                if (cat.id === category.id) return null;
+                return (
+                  <option key={cat?.id} value={cat?.id}>
+                    {cat?.categoryName}
+                  </option>
+                )
+              })}
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check // prettier-ignore
               type="checkbox"
-              checked = {category.active}
-              label="Acitve"
+              checked={category.active}
+              label="Active"
               name="active"
               onChange={handleChange}
             />

@@ -7,7 +7,7 @@ const CategoryListPage = () => {
   const [categories, setCategories] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [showDetailModal, setShowDetailModal] = useState(false);
-  const [categoryEditable,setCategoryEditable] = useState({});
+  const [categoryEditable, setCategoryEditable] = useState({});
 
   // Call API
   useEffect(() => {
@@ -42,12 +42,11 @@ const CategoryListPage = () => {
     try {
       const response = await categoryService.findById(id);
       setCategoryEditable(response.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleSubmit = async (formData) => {
     try {
-      console.log("formData: ", formData);
       const responseData = await categoryService.updateCategory({
         ...formData,
         isActive: formData.active,
