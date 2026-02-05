@@ -16,10 +16,8 @@ export default function DashboardLayout() {
       <div className="app-main d-flex flex-column">
         <Topbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
 
-        <main className="flex-grow-1 py-3">
-          <Container fluid="lg">
+        <main className="flex-grow-1 py-2">
             <Outlet />
-          </Container>
         </main>
 
         <footer className="py-3 text-muted small">

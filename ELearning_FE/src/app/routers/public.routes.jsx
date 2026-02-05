@@ -23,7 +23,6 @@ const publicRoutes = [
         ]
 
     },
-     {path: "/admin", element: <DashboardLayout />},
     {path: "*", element: <div>404 Not Found</div> },
 ];
 export default publicRoutes;
