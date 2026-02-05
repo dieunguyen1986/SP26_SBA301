@@ -12,7 +12,7 @@ import java.util.List;
 @Repository("categoryRepository")
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    @Query("SELECT new edu.lms.dto.CategoryResponse(c.id, c.categoryName, c.description, c.isActive, c.updateTime, p.categoryName) FROM Category c JOIN c.parent p")
+    @Query("SELECT new edu.lms.dto.CategoryResponse(c.id, c.categoryName, c.description, c.isActive, c.sortOrder, c.updateTime, p.categoryName,p.id) FROM Category c LEFT JOIN c.parent p")
     List<CategoryResponse> findAllCategories();
 
 }

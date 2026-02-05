@@ -13,9 +13,14 @@ public class CategoryResponse {
     private Integer id;
     private String categoryName;
     private String description;
-    private boolean isActive;
+    private boolean active;
+    private int sortOrder;;
+
 
     private LocalDateTime updateTime;
 
     private String parentName;
+    private Integer parentId;
+
+
 }

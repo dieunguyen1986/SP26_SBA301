@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryRequest {
 
-    private Integer parentId;
+    private String id;
+
+    private String parentId;
 
     @NotBlank
     private String categoryName;
@@ -22,5 +24,5 @@ public class CategoryRequest {
     @Builder.Default
     private boolean isActive= true;
 
-    private int sortOrder;
+    private String sortOrder;
 }
