@@ -66,7 +66,7 @@ const CategoryListPage = () => {
         <h3>Category List</h3>
 
         <Button
-          variant="info"
+          variant="primary"
           className="rounded-2"
           style={{ width: "120px", color: "white" }}
           onClick={() => setShowDetailModal(true)}
