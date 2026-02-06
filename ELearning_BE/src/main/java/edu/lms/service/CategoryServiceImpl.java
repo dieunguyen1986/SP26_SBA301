@@ -86,6 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
                  .parentId(currentCategory.getParent()!=null ?  currentCategory.getParent().getId() : null)
 //                 .updateTime(currentCategory.getUpdateTime())
                  .sortOrder(currentCategory.getSortOrder())
+                 .active(currentCategory.isActive())
                  .build();
     }
 
@@ -100,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private  Integer checkInt(String value, String message) {
-        if(value==null || value.isBlank()){
+        if(value!=null && !value.isBlank()){
             try {
                 return  Integer.parseInt(value);
             } catch (Exception e) {
