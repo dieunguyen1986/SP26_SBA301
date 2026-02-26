@@ -23,6 +23,9 @@ public class Course {
     @Column(columnDefinition = "NVARCHAR(255)")
     private String title;
 
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String subtitle;
+
     @Column(name = "short_description", columnDefinition = "TEXT")
     private String shortDescription;
 
@@ -39,6 +42,19 @@ public class Course {
     @Column(name = "thumbnail_url", columnDefinition = "VARCHAR(1024)")
     private String thumbnailUrl;
 
+    private Double rating;
+
+    @Column(name = "rating_count")
+    private Integer ratingCount;
+    private Integer students;
+
+    @Column(name = "total_hours")
+    private Double totalHours;
+
+    private Double price;
+
+    private Double discount;
+
     private String status;
 
     @Column(name = "publish_at")
@@ -52,4 +68,7 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
     private Set<CourseCategory> courseCategories;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Module> modules;
 }
