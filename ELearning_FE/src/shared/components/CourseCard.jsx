@@ -12,7 +12,7 @@ const CourseCard = ({ course }) => {
     const loadImage = async () => {
       const renderImage = new Promise((resolve, reject) => {
         const img = new Image();
-        img.src = course.image;
+        img.src = course.thumbnailUrl;
         img.onload = () => resolve(img.src);
         img.onerror = (err) => reject(err.message);
       });
@@ -66,7 +66,7 @@ const CourseCard = ({ course }) => {
         <Card.Title className="fw-bold fs-6 mb-2">
           <Nav.Link
             as={Link}
-            to={`/courses/${course.id}`}
+            to={`/courses/${course.courseId}`}
             className="text-primary text-decoration-none p-0 m-0"
           >
             {course.title}
@@ -82,7 +82,7 @@ const CourseCard = ({ course }) => {
         <div className="d-flex justify-content-between align-items-end">
           <div>
             <div className="text-secondary small mb-2">
-              {course.instructor.name}
+              {course?.instructor?.name}
             </div>
 
             <div className="d-flex align-items-center gap-2">
