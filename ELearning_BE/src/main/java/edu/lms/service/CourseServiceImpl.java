@@ -1,16 +1,20 @@
 package edu.lms.service;
 
+import edu.lms.dto.CourseDetailResponse;
 import edu.lms.dto.CourseResponse;
 import edu.lms.dto.CourseSummaryResponse;
 import edu.lms.dto.PageResponse;
 import edu.lms.entity.Course;
 import edu.lms.enums.UploadFolder;
 import edu.lms.repository.CourseRepository;
+import edu.lms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +26,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final CloudinaryService cloudinaryService;
+    private final UserRepository userRepository;
 
     @Override
     public PageResponse<CourseSummaryResponse> getAllCourses(Integer page, Integer size) {
@@ -49,6 +54,18 @@ public class CourseServiceImpl implements CourseService {
         String uploadResult = cloudinaryService.uploadFile(file, UploadFolder.COURSE, "courseId");
 
         log.info("upload result {}", uploadResult);
+
+        return null;
+    }
+
+    @Override
+    public PageResponse<CourseDetailResponse> getAllCourseByInstructor(Pageable pageable, Authentication authentication) {
+//        String username = ((UserDetails)authentication.getDetails()).getUsername();
+        String username = "Instructor 1";
+
+        Long instructorId = userRepository.findByUserName(username).getId();
+
+        Page<Course> coursePage = courseRepository.findAllByInstructor(pageable, instructorId);
 
         return null;
     }
