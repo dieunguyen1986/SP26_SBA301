@@ -1,0 +1,15 @@
+package edu.lms.repository;
+
+import edu.lms.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+
+    // Query method
+    List<Role> findRole_UsersById(Long id);
+
+}

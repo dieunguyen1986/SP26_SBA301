@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "Users")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -62,13 +63,13 @@ public class User {
     @Column(name = "google_id")
     private String googleId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "UserRoles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "lecturer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> taughtCourses = new ArrayList<>();
 
 }

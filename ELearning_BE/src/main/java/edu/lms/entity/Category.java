@@ -10,8 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "Category",
-        uniqueConstraints = {@UniqueConstraint(name = "UQ_C_NAME", columnNames = {"category_name"})})
+@Table(name = "Category"
+//        , uniqueConstraints = {@UniqueConstraint(name = "UQ_C_NAME", columnNames = {"category_name"})}
+)
 @Data
 @Builder
 @AllArgsConstructor

@@ -11,8 +11,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +53,9 @@ public class CategoryController {
 
                     )})
     )
-    public ResponseEntity<?> createCategory(@RequestBody @Valid CategoryRequest categoryRequest) {
+    public ResponseEntity<?> createCategory(HttpSession session, @RequestBody @Valid CategoryRequest categoryRequest) {
         categoryService.createCategory(categoryRequest);
+
 
         return ResponseEntity.ok().body(Map.of("message", "Category created"));
     }

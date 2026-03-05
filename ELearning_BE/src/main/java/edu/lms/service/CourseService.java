@@ -16,5 +16,5 @@ public interface CourseService {
 
     public CourseResponse uploadThumbnail(Integer courseId, MultipartFile file);
 
-    PageResponse<CourseDetailResponse> getAllCourseByInstructor(Pageable pageable, Authentication authentication);
+    PageResponse<CourseDetailResponse> getAllCourseByInstructor(Integer page, Integer size, Authentication authentication);
 }
