@@ -1,13 +1,30 @@
-import { AuthStatesContext } from "@/app/provider/AuthProvider";
+import { AuthActionsContext, AuthStatesContext } from "@/app/provider/AuthProvider";
+import { auth } from "@/features/auth/services/auth.service";
 import React, { useContext } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 
 const PublicHeader = () => {
   const { userContext } = useContext(AuthStatesContext);
+  const { logout } = useContext(AuthActionsContext);
+
   const navLinkCutom = ({ isActive }) =>
     "nav-link " +
     (isActive ? "border-bottom border-black text-info" : " text-gray");
+
+  const handleLogout = async () => {
+    try {
+      // Clear user context
+      await auth.logout();
+
+      // Update context and localStorage
+      // localStorage.removeItem("user");
+      logout();
+
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <div className="container py-2">
@@ -96,8 +113,10 @@ const PublicHeader = () => {
             </div>
           ) : (
             <Nav variant="pills" activeKey="1" onSelect="">
-              <NavDropdown title={userContext.name} id="nav-dropdown">
-                <NavDropdown.Item eventKey="4.1">Logout</NavDropdown.Item>
+              <NavDropdown title={userContext.fullName || userContext.email} id="nav-dropdown">
+                <NavDropdown.Item onClick={() => {handleLogout()}} eventKey="4.1">
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           )}

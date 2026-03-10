@@ -18,9 +18,16 @@ const AuthProvider = ({ children }) => {
 
   // Actions/Functions
 
-  const changeUser = (user) => {
+  const changeUser = (authResponse) => {
+    const userInfo = { email: authResponse.email, fullName: authResponse.fullName, roles: authResponse.roles };
+
+    // Decode token to get user info
+    // const userInfo = jwt_decode(authResponse.accessToken);
+
     console.log("Set user to context");
-    setUserContext(user);
+    setUserContext(userInfo);
+    localStorage.setItem("user", JSON.stringify(userInfo));
+
   };
 
   const changeLang = (other) => {
@@ -28,7 +35,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     setUserContext(null);
 
     window.location.href = "/login";

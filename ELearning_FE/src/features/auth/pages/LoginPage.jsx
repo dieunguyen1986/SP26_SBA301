@@ -1,5 +1,5 @@
 // LoginPage.jsx
-import React, { use, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Container,
   Row,
@@ -21,31 +21,43 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import "@/styles/loginPage.css";
 import { auth } from "../services/auth.service";
-import { AuthActionsContext, AuthStatesContext } from "@/app/provider/AuthProvider";
+import {
+  AuthActionsContext,
+  AuthStatesContext,
+} from "@/app/provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import ROLE_HOME_PAGE from "@/shared/components/ROLE_HOME_PAGE";
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
-  const {changeUser} = useContext(AuthActionsContext);
+  const { changeUser } = useContext(AuthActionsContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: handle login
 
     // Call API
     try {
-      const response = await auth.login(user);
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
+      const authResponse = await auth.login(user);
 
       // Set to context
-      changeUser(response.user);
-      
-      navigate("/");
+      changeUser(authResponse);
 
+      const roles = authResponse.roles;
+
+      if (roles.includes("ROLE_ADMIN")) {
+        navigate(ROLE_HOME_PAGE["ROLE_ADMIN"]);
+      } else if (roles.includes("ROLE_INSTRUCTOR")) {
+        console.log("Navigate to instructor dashboard");
+        navigate(ROLE_HOME_PAGE["ROLE_INSTRUCTOR"]);
+      } else if (roles.includes("ROLE_SUPPORT")) {
+        navigate(ROLE_HOME_PAGE["ROLE_SUPPORT"]);
+      } else {
+        navigate(ROLE_HOME_PAGE["ROLE_STUDENT"]);
+      }
     } catch (error) {
       console.log(error.message);
       setMessage(error.message || "An error has occurred!");
@@ -61,9 +73,9 @@ export const LoginPage = () => {
               <Card.Body className="p-4 p-sm-5">
                 <h2 className="text-center fw-bold mb-4 lp-title">Login</h2>
 
-                {message.length !== 0 &&
+                {message.length !== 0 && (
                   <Alert variant="danger">{message}</Alert>
-                }
+                )}
 
                 <Form onSubmit={handleSubmit}>
                   {/* Username / Email */}

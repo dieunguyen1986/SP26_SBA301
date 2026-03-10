@@ -1,8 +1,27 @@
 import React from "react";
-import { Navbar, Container, Nav, Form, InputGroup, Badge, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, Form, InputGroup, Badge, Button, NavDropdown } from "react-bootstrap";
 import { FiBell, FiMail, FiSearch, FiMenu } from "react-icons/fi";
+import useAuth from "../hooks/useAuth";
+import { auth } from "@/features/auth/services/auth.service";
 
 export default function Topbar({ onToggleSidebar }) {
+  const { userContext } = useAuth(); //useContext(AuthStatesContext)?.user;
+  const { logout } = useAuth(); //useContext(AuthActionsContext);
+
+   const handleLogout = async () => {
+      try {
+        // Clear user context
+        await auth.logout();
+  
+        // Update context and localStorage
+        // localStorage.removeItem("user");
+        logout();
+  
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    };
+
   return (
     <Navbar bg="white" className="border-bottom py-3">
       <Container fluid="lg" className="gap-2">
@@ -39,7 +58,16 @@ export default function Topbar({ onToggleSidebar }) {
                  style={{ width: 34, height: 34, fontWeight: 800 }}>
               H
             </div>
-            <span className="ms-2 d-none d-md-inline fw-semibold">Admin</span>
+
+            <Nav variant="pills" activeKey="1" onSelect="">
+              <NavDropdown title={userContext?.fullName || userContext?.email} id="nav-dropdown">
+                <NavDropdown.Item onClick={() => {handleLogout()}} eventKey="4.1">
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+
+            {/* <span className="ms-2 d-none d-md-inline fw-semibold">{userContext?.fullName || userContext?.email}</span> */}
           </div>
         </Nav>
       </Container>

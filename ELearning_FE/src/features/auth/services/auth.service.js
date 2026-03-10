@@ -1,20 +1,15 @@
+import axiosClient from "@/shared/services/axiosClient";
+
+const LOGIN_URL = "/api/v1/auth/login";
 export const auth = {
   login: async (payload) => {
-    if (
-      payload.email === "admin@example.com" &&
-      payload.password === "123456"
-    ) {
-      return {
-        user: {
-          id: 1,
-          name: "John",
-          email: "admin@example.com",
-        },
-        accessToken: "ACCESS_TOKEM_SAMPLE",
-      };
-    } else throw new Error("Invalid credentials!");
+    const response = await axiosClient.post(LOGIN_URL, payload);
+    return response.data;
   },
-  logout: async () => {},
+  
+  logout: async () => {
+    await axiosClient.post("/api/v1/auth/logout");
+  },
   findByEmail: async (email) => {
     
   },
