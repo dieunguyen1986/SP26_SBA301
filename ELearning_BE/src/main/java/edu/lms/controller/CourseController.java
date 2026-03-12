@@ -1,13 +1,11 @@
 package edu.lms.controller;
 
 import edu.lms.constants.ApiPaths;
-import edu.lms.dto.CourseDetailResponse;
-import edu.lms.dto.CourseResponse;
-import edu.lms.dto.CourseSummaryResponse;
-import edu.lms.dto.PageResponse;
+import edu.lms.dto.*;
 import edu.lms.service.CourseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Course APIs")
+@Slf4j
 public class CourseController {
 
     private final CourseService courseService; // DI
@@ -38,12 +37,25 @@ public class CourseController {
         );
     }
 
+//    @GetMapping(ApiPaths.MY_COURSES)
+//    public PageResponse<CourseDetailResponse> getCourseByInstructor(
+//            @RequestParam int page,
+//            @RequestParam int size,
+//            Authentication authentication
+//    ) {
+//        return courseService.getAllCourseByInstructor(page, size, authentication);
+//    }
+
+
     @GetMapping(ApiPaths.MY_COURSES)
     public PageResponse<CourseDetailResponse> getCourseByInstructor(
-            @RequestParam int page,
-            @RequestParam int size,
+            CourseSearchRequest request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Authentication authentication
     ) {
-        return courseService.getAllCourseByInstructor(page, size, authentication);
+        log.info("In CourseController.getCourseByInstructor {}", request);
+
+        return courseService.getAllCourseByInstructor(request, page, size, authentication);
     }
 }

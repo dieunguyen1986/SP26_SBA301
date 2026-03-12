@@ -2,7 +2,6 @@ package edu.lms.service;
 
 import edu.lms.dto.*;
 import edu.lms.entity.*;
-import edu.lms.entity.Module;
 import edu.lms.enums.UploadFolder;
 import edu.lms.repository.CourseRepository;
 import edu.lms.repository.UserRepository;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +56,14 @@ public class CourseServiceImpl implements CourseService {
         return null;
     }
 
+    public CourseDetailResponse getCourseDetail(Integer courseId) {
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        return mapToResponse(course);
+    }
+
     @Override
     public PageResponse<CourseDetailResponse> getAllCourseByInstructor(Integer page, Integer size, Authentication authentication) {
 //        String username = ((UserDetails)authentication.getDetails()).getUsername();
@@ -84,6 +92,24 @@ public class CourseServiceImpl implements CourseService {
                 .build();
     }
 
+    public PageResponse<CourseDetailResponse> getAllCourseByInstructor(
+            CourseSearchRequest request,
+            int page,
+            int size,
+            Authentication authentication
+    ) {
+
+//        String email = authentication.getName();
+        String email = "instructor@lms.com";
+        Pageable pageable = PageRequest.of(page, size);
+
+        Specification<Course> spec = CourseSpecification.searchInstructorCourse(email, request);
+
+        Page<Course> coursePage = courseRepository.findAll(spec, pageable);
+
+        return PageResponse.from(coursePage.map(this::mapToResponse));
+    }
+
 
     public CourseDetailResponse mapToResponse(Course course) {
         if (course == null) return null;
@@ -109,14 +135,6 @@ public class CourseServiceImpl implements CourseService {
                 // KEY PART: many-to-many mapping
                 .categories(mapCategories(course.getCourseCategories()))
 
-                // modules
-                .modules(
-                        course.getModules() != null ?
-                                course.getModules().stream()
-                                        .map(this::mapModule)
-                                        .collect(Collectors.toSet())
-                                : Collections.emptySet()
-                )
                 .build();
     }
 
@@ -132,32 +150,6 @@ public class CourseServiceImpl implements CourseService {
                 .collect(Collectors.toSet());
     }
 
-    private LessonResponse mapLesson(Lesson lesson) {
-        if (lesson == null) return null;
-
-        return LessonResponse.builder()
-                .id(lesson.getLessonId())
-                .title(lesson.getTitle())
-                .durationSeconds(lesson.getDurationSeconds())
-                .build();
-    }
-
-    private ModuleResponse mapModule(Module module) {
-        if (module == null) return null;
-
-        return ModuleResponse.builder()
-                .id(module.getModuleId())
-                .title(module.getTitle())
-                .lessons(
-                        Optional.ofNullable(module.getLessons())
-                                .orElse(Collections.emptySet())
-                                .stream()
-                                .map(this::mapLesson)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toCollection(ArrayList::new))
-                )
-                .build();
-    }
 
     private CategoryResponse mapCategory(Category category) {
         if (category == null) return null;

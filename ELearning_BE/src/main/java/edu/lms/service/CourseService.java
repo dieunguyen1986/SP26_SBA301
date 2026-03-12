@@ -1,9 +1,6 @@
 package edu.lms.service;
 
-import edu.lms.dto.CourseDetailResponse;
-import edu.lms.dto.CourseResponse;
-import edu.lms.dto.CourseSummaryResponse;
-import edu.lms.dto.PageResponse;
+import edu.lms.dto.*;
 import edu.lms.entity.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +14,10 @@ public interface CourseService {
     public CourseResponse uploadThumbnail(Integer courseId, MultipartFile file);
 
     PageResponse<CourseDetailResponse> getAllCourseByInstructor(Integer page, Integer size, Authentication authentication);
+    PageResponse<CourseDetailResponse> getAllCourseByInstructor(
+            CourseSearchRequest request,
+            int page,
+            int size,
+            Authentication authentication
+    );
 }

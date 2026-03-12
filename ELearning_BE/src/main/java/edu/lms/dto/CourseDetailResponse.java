@@ -43,5 +43,4 @@ public class CourseDetailResponse {
 
     private Set<CategoryResponse> categories;
 
-    private Set<ModuleResponse> modules;
 }

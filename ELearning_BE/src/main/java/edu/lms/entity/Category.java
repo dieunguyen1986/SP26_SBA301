@@ -1,10 +1,7 @@
 package edu.lms.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -13,7 +10,8 @@ import java.util.Set;
 @Table(name = "Category"
 //        , uniqueConstraints = {@UniqueConstraint(name = "UQ_C_NAME", columnNames = {"category_name"})}
 )
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
